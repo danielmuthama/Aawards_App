@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'content' %}
+<section class="py-5">
+    <div class="row justify-content-center pt-5">
+        <div class="col-md-8">
+            <div>
+                <img src="{{project.project_image}}" alt="" class="img-fluid w-100">
+            </div>
+            <div class="bg-white pb-4">
+                {% if project.user.id != user.id %}
+                <button {% if user_voted %} disabled {% endif %}
+                    class="w-100 btn btn-primary rounded-0 text-white py-3 text-uppercase" data-bs-toggle="modal"
+                    data-bs-target="#voteModal">
+                    {% if user_voted %}
+                    Already voted!
+                    {% else %}
+                    Submit Vote
+                    {% endif %}
+                </button>
+                {% endif %}
+                <div class="px-2">
+                    <h5 class="fw-bold pt-5">
+                        {{project.title}}
+                    </h5>
+                    <p class="text-muted mb-1 text-sm">
+                        By <span class="fw-bold text-primary">{{project.user.full_name}}</span> .
+                        <span class="ps-2">{{project.date|date}}</span>
+                    </p>
+                    <div class="description pt-2">
+                        <p class="text-muted text-start">
+                            {{project.description}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rating-group d-flex mt-4 text-center">
+                <div class="rating">
+                    <div class="rating-circle border border-3 border-primary rounded-circle center mx-2">
+                        {{project.avg_design_rate}}
+                    </div>
+                    Design
+                </div>
+                <div class="rating">
+                    <div class="rating-circle border border-3 border-warning rounded-circle center mx-2">
+                        {{project.avg_usability_rate}}
+                    </div>
+                    Usability
+                </div>
+                <div class="rating">
+                    <div class="rating-circle border border-3 border-blue rounded-circle center mx-2">
+                        {{project.avg_content_rate}}
+                    </div>
+                    Content
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 mt-4 py-4 bg-white px-0 overflow-hidden">
+            <div class="">
+                <div class="pb-2 px-3">
+                    <p class="text-uppercase">User votes</p>
+                </div>
+                <hr class="my-0">
+                <div class="votes">
+                    {% if project.ratings.count > 0 %}
+                    {% for vote in project.ratings.all %}
+                    <div class="user-vote row border-bottom p-2 pe-3">
+                        <div class="col d-flex align-items-center">
+                            <img src="{{vote.user.user_avatar}}" alt="" class="img-40 rounded-circle">
+                            <span class="ps-2">{{vote.user.full_name}}</span>
+                        </div>
+                        <div class="col  d-flex align-items-center">
+                            <div class="rating-group d-none d-md-flex ms-auto ">
+                                <div class="rating">
+                                    <div
+                                        class="rating-circle img-50 border border-3 border-primary rounded-circle center mx-2">
+                                        {{vote.design_rate}}
+                                    </div>
+                                </div>
+                                <div class="rating">
+                                    <div
+                                        class="rating-circle img-50 border border-3 border-warning rounded-circle center mx-2">
+                                        {{vote.usability_rate}}
+                                    </div>
+                                </div>
+                                <div class="rating">
+                                    <div
+                                        class="rating-circle img-50 border border-3 border-blue rounded-circle center mx-2">
+                                        {{vote.content_rate}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="average-vote fs-3 ms-auto ms-md-3">
+                                {{vote.avg_rate}}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="mt-2 ms-2 text-muted">No user votes yet</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'partials/vote-modal.html' %}
+{% endblock %}

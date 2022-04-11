@@ -1,0 +1,40 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="image_name">Title</label>
+                        <input type="text" class="form-control" value="" name="title" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="image_name">Url</label>
+                        <input type="url" class="form-control" value="" name="url" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="image_name">Location</label>
+                        <input type="text" class="form-control" value="" name="location" required="">
+                    </div>
+                    <input type="hidden" name="user_id" value="38">
+                    <div class="form-group mt-3">
+                        <label for="exampleFormControlTextarea1">Descrition</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"
+                            required=""></textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="exampleFormControlFile1">Upload Photo</label>
+                        <input type="file" class="form-control" id="euxampleFormControlFile1" name="image" required="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary text-white">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

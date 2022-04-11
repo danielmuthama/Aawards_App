@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'content' %}
+{% include 'partials/banner.html' %}
+
+<section id="projects" class="container-lg py-5 px-lg-5">
+    <p><b>Nominees</b> we need your votes</p>
+    <div class="projects row">
+        {% if projects %}
+        {% for project in projects %}
+        <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
+            {% include 'partials/project-card.html' %}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'content' %}
+<section id="projects" class="container-lg py-5 px-lg-5">
+    <div class="mt-5">
+        <p>Search results for "<b>{{request.GET.q}}</b>"</p>
+        <div class="projects row mt-4">
+            {% if projects %}
+            {% for project in projects %}
+            <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
+                {% include 'partials/project-card.html' %}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
