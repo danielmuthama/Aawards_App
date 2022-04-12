@@ -1,5 +1,6 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
-from app.models import User, Project, Rating
+from .models import Project, Profile
 
 # Create your tests here.
 
@@ -8,7 +9,7 @@ class ProjectTestClass(TestCase):  # Project class test
     def setUp(self):
         # create a user
         user = User.objects.create(
-            username="john", full_name="john doe"
+            username="test_user", first_name="bwana", last_name="blair"
         )
 
         self.project = Project(
@@ -23,47 +24,39 @@ class ProjectTestClass(TestCase):  # Project class test
 
     def test_save_method(self):
         self.project.save_project()
-        project = Project.objects.get(id=self.project.id)
-        self.assertIsNotNone(project)
-
-    def test_update_method(self):
-        self.project.title = 'new title'
-        self.project.save_project()
-        project = Project.objects.get(id=self.project.id)
-        self.assertEqual(self.project.title, project.title)
+        projects = Project.objects.all()
+        self.assertTrue(len(projects) > 0)
 
     def test_delete_method(self):
         self.project.save_project()
         self.project.delete_project()
-        project = Project.objects.filter(id=self.project.id).exists()
-        self.assertFalse(project)
+        projects = Project.objects.all()
+        self.assertTrue(len(projects) == 0)
 
 
-class RatingTestClass(TestCase):
+class ProfileTestClass(TestCase):  # Profile class test
     def setUp(self):
         # create a user
         user = User.objects.create(
-            username="john", full_name="john doe"
+            username="test_user", first_name="bwana", last_name="blair"
         )
 
-        self.project = Project(
-            title="Test Project",
-            description="Test Description",
-            image="image.jpg",
+        self.profile = Profile(
+            bio="Test Bio",
             user=user,
+            contact="Test Contact",
         )
 
-        self.rating = Rating(user=user, project=self.project,
-                             design_rate=9, usability_rate=8, content_rate=7)
+    def test_instance(self):
+        self.assertTrue(isinstance(self.profile, Profile))
 
-        self.project.save_project()
-        self.rating.save_rating()
+    def test_save_method(self):
+        self.profile.save_profile()
+        profiles = Profile.objects.all()
+        self.assertTrue(len(profiles) > 0)
 
-    def test_save_rating(self):
-        rating = Rating.filter_by_id(self.rating.id)
-        self.assertIsNotNone(rating)
-
-    def test_delete_rating(self):
-        self.rating.delete_rating()
-        rating = Rating.objects.filter(id=self.rating.id).exists()
-        self.assertFalse(rating)
+    def test_delete_method(self):
+        self.profile.save_profile()
+        self.profile.delete_profile()
+        profiles = Profile.objects.all()
+        self.assertTrue(len(profiles) == 0)
